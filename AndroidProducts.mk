@@ -14,9 +14,9 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_r8q.mk
+    $(LOCAL_DIR)/lmodroid_r8q.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_r8q-userdebug \
-    lineage_r8q-user \
-    lineage_r8q-eng
+    lmodroid_r8q-userdebug \
+    lmodroid_r8q-user \
+    lmodroid_r8q-eng
