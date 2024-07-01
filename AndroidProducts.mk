@@ -15,8 +15,3 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/lmodroid_r8q.mk
-
-COMMON_LUNCH_CHOICES := \
-    lmodroid_r8q-userdebug \
-    lmodroid_r8q-user \
-    lmodroid_r8q-eng

@@ -21,8 +21,12 @@ TARGET_HAVE_MULTI_SKU := true
 
 include device/samsung/sm8250-common/BoardConfigCommon.mk
 
+# Camera
+SOONG_CONFIG_samsungCameraVars += extra_ids
+SOONG_CONFIG_samsungCameraVars_extra_ids := 52 # telephoto
+
 # Kernel
-TARGET_KERNEL_CONFIG := vendor/r8q_eur_openx_defconfig
+TARGET_KERNEL_CONFIG += vendor/samsung/r8q.config
 BOARD_NAME := SRPUB26A007
 
 # OTA assert
