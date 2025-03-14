@@ -28,9 +28,6 @@
 #
 
 on post-fs
-# Enable NFC services
-    start vendor.nfc_init
-
 # Create carrier folder for HiddenMenu
     mkdir /efs/carrier 0755 radio system
     chown radio system /efs/carrier
@@ -125,16 +122,6 @@ on property:ro.boot.carrierid=USC
 on property:ro.boot.carrierid=CCT
     setprop ssu.support 1
 
-# Default network
-on property:ro.product.vendor.name=r8qxx
-    setprop ro.telephony.default_network 9,9
-on property:ro.product.vendor.name=r8qxxx
-    setprop ro.telephony.default_network 33,33
-
-on boot
-# Create directory for libnfc-nci symlink
-    mkdir /mnt/vendor/etc
-
 # Performance
     chmod 0664 /dev/cpuset/restricted/cpus
     write /dev/cpuset/restricted/cpus 0-7
@@ -165,13 +152,31 @@ on post-fs-data && property:ro.csc.sales_code=DSA
     umount /mnt/temp
     rmdir /mnt/temp
 
-# Start NFC hals
-service vendor.nfc_init /vendor/bin/sh /vendor/bin/init.nfc.sh
-    oneshot
+# Device specific properties
+on property:ro.boot.em.model=SM-G780G
+    setprop ro.telephony.default_network "9,9"
+    setprop bluetooth.device.default_name "Galaxy S20 FE"
 
-# Define NXP hal once more for disabling it
-service vendor.nfc_hal_service /vendor/bin/hw/nxp.android.hardware.nfc@1.2-service
-    disabled
-    class hal
-    user nfc
-    group nfc net_bt_admin
+on property:ro.boot.em.model=SM-G781B
+    setprop ro.boot.product.hardware.sku "s3fwrn5"
+    setprop ro.vendor.nfc.feature.chipname "SLSI"
+    setprop ro.telephony.default_network "33,33"
+    setprop bluetooth.device.default_name "Galaxy S20 FE 5G"
+
+on property:ro.boot.em.model=SM-G781N
+    setprop ro.boot.product.hardware.sku "s3fwrn5"
+    setprop ro.vendor.nfc.feature.chipname "SLSI"
+    setprop ro.telephony.default_network "33,33"
+    setprop bluetooth.device.default_name "Galaxy S20 FE 5G"
+
+on property:ro.boot.em.model=SM-G7810
+    setprop ro.boot.product.hardware.sku "s3fwrn5"
+    setprop ro.vendor.nfc.feature.chipname "SLSI"
+    setprop ro.telephony.default_network "33,33"
+    setprop bluetooth.device.default_name "Galaxy S20 FE 5G"
+
+on fs && property:ro.boot.product.hardware.sku=sn110t
+    mount none /vendor/etc/libnfc-nci-NXP_SN100U.conf /vendor/etc/libnfc-nci.conf bind
+
+on fs && property:ro.boot.product.hardware.sku=s3fwrn5
+    mount none /vendor/etc/libnfc-nci-SLSI.conf /vendor/etc/libnfc-nci.conf bind
